@@ -1,0 +1,11 @@
+# eliminate-comma-at-value-labels
+
+local all_distance distance_gul_id distance_channel_id // create a local for all variables to be modified 
+foreach ec of local all_distance {
+    levelsof `ec', local(levels) // extract a sorted list of the distinct values of each variable 
+    foreach code of local levels {
+              local lab`code' : label `ec' `code' 
+              local new_lab`code' = subinstr("`lab`code''",",","",.)
+              label define `ec' `code' "`new_lab`code''", modify
+              }
+}
